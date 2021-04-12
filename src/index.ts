@@ -10,10 +10,19 @@ const io = require("socket.io")(
   }
 );
       
-      const MAX_PLAYER_ROOM = 2;
-      let players = [];
+  const MAX_PLAYER_ROOM = 2;
+  let players = [];
 
 
+  setInterval(() => {
+    console.log('--------------\nINFO SERVEUR\n--------------');
+    console.log(`Nombre de joueurs connecté: ${players.length}`);
+    players.map((player) => {
+      console.log(`name: ${player.name}, id: ${player.id}`);
+    })
+    console.log();
+  }, 4000)
+  
 io.on('connection', (socket) => {
   if (players.length < MAX_PLAYER_ROOM) {
     console.log('Demande de connection utilisateur: ', socket.id);
@@ -28,6 +37,7 @@ io.on('connection', (socket) => {
     socket.broadcast.emit("connectUser", {
       id: socket.id,
       name: socket.handshake.query.name,
+      position: 'RIGHT'
     });
 
     if (players.length > 1) {
@@ -35,14 +45,16 @@ io.on('connection', (socket) => {
       socket.emit("connectUser", {
         id: player.id,
         name: player.name,
+        position: 'LEFT'
       });
+      io.emit("startGame")
     }
     
 
   } else {
     // Forcer la déconnection du joueur
     console.log('Connection utilisateur refusé: ', socket.id);
-    socket.disconnect()
+    socket.disconnect('Server full')
   }
 
   socket.on('playerMove', ({ direction, id }) => {
@@ -52,7 +64,6 @@ io.on('connection', (socket) => {
   });
 
   socket.on('updateMove', ({x, y}) => {
-    console.log('updateMove');
     socket.broadcast.emit("updateMove", { x, y, id: socket.id });
   });
 
@@ -65,11 +76,6 @@ io.on('connection', (socket) => {
       socket.broadcast.emit("deconnectUser", socket.id);
     }
   });
-  socket.on("playerMove", function(direction: any) {
-    console.log(direction);
-  });
 });
-
-//io.listen(PORT)
 
 
