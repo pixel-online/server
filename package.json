@@ -14,11 +14,11 @@
   "dependencies": {
     "cors": "^2.8.5",
     "express": "^4.17.1",
-    "socket.io": "^4.0.1"
+    "socket.io": "^4.0.1",
+    "ts-node": "^9.1.1",
+    "typescript": "^4.2.4"
   },
   "devDependencies": {
-    "@types/socket.io": "^2.1.13",
-    "ts-node": "^9.1.1",
-    "typescript": "^4.2.3"
+    "@types/socket.io": "^2.1.13"
   }
 }
