@@ -1,7 +1,7 @@
 const corsOrigin = process.env?.MODE === 'dev' ? "http://0.0.0.0" : 'https://pixel-online.netlify.app';
 const io = require("socket.io")(80, {
   cors: {
-    origin: '*:*', // corsOrigin,
+    origin: corsOrigin,
     methods: ["GET", "POST", "OPTIONS"]
   },
 });
