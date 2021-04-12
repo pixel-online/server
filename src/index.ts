@@ -1,5 +1,5 @@
 const corsOrigin = process.env?.MODE === 'dev' ? "http://0.0.0.0:8000" : 'https://pixel-online.netlify.app';
-const PORT = process.env?.MODE === 'dev' ? 8080 : 80;
+const PORT = process.env.PORT || 8080;
 
 const io = require("socket.io")(
   PORT, {
