@@ -1,26 +1,18 @@
-const corsOrigin = process.env?.MODE === 'dev' ? "http://0.0.0.0:3000" : 'https://pixel-online.netlify.app';
+const corsOrigin = process.env?.MODE === 'dev' ? "http://0.0.0.0:8000" : 'https://pixel-online.netlify.app';
 const PORT = process.env?.MODE === 'dev' ? 8080 : 80;
 
-const express = require('express');
+const io = require("socket.io")(
+  PORT, {
+    cors: {
+      origin: corsOrigin,
+      methods: ["GET", "POST", "OPTIONS"]
+    },
+  }
+);
+      
+      const MAX_PLAYER_ROOM = 2;
+      let players = [];
 
-const socketIO = require("socket.io")
-//(
-//   PORT, {
-//   cors: {
-//     origin: corsOrigin,
-//     methods: ["GET", "POST", "OPTIONS"]
-//   },
-// }
-//);
-
-const MAX_PLAYER_ROOM = 2;
-let players = [];
-
-const server = express()
-  //.use((req, res) => res.sendFile(INDEX, { root: __dirname }))
-  .listen(PORT, () => console.log(`Listening on ${PORT}`));
-
-const io = socketIO(server);
 
 io.on('connection', (socket) => {
   if (players.length < MAX_PLAYER_ROOM) {
@@ -77,5 +69,7 @@ io.on('connection', (socket) => {
     console.log(direction);
   });
 });
+
+//io.listen(PORT)
 
 
