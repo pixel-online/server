@@ -1,4 +1,4 @@
-const io = require("socket.io")(1337, {
+const io = require("socket.io")(80, {
   cors: {
     origin: process.env?.MODE === 'dev' ? "http://0.0.0.0:8000" : 'https://pixel-online.netlify.app/', // Maj pour production -> 
     methods: ["GET", "POST"]
